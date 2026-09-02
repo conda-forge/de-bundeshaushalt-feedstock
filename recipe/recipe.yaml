@@ -1,0 +1,48 @@
+schema_version: 1
+
+context:
+  name: de-bundeshaushalt
+  version: 1.0.0
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/${{ name[0] }}/${{ name }}/de-bundeshaushalt-${{ version }}.tar.gz
+  sha256: 249649132d5962678da9055ed2ccb5d3a6a683ea0133139a7f866991e9b3dd17
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - python ${{ python_min }}.*
+    - pip
+    - poetry
+  run:
+    - python >=${{ python_min }}
+    - python-dateutil
+    - urllib3 >=1.25.3
+
+tests:
+  - python:
+      imports:
+        - deutschland.bundeshaushalt
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  summary: Bundeshaushalt API
+  license: Apache-2.0
+  license_file:
+    - LICENSE
+  homepage: https://github.com/bundesAPI/&lt;REPO&gt;
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
